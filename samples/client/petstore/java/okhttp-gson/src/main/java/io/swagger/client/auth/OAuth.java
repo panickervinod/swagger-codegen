@@ -15,25 +15,53 @@ package io.swagger.client.auth;
 
 import io.swagger.client.Pair;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.List;
 
 
 public class OAuth implements Authentication {
-  private String accessToken;
+    private OAuthBearerProvider bearerProvider;
+    private String accessToken;
+    private Date expiration;
 
-  public String getAccessToken() {
-    return accessToken;
-  }
-
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
-
-  @Override
-  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
-    if (accessToken != null) {
-      headerParams.put("Authorization", "Bearer " + accessToken);
+    public OAuthBearerProvider getBearerProvider() {
+        return bearerProvider;
     }
-  }
+
+    public void setBearerProvider(OAuthBearerProvider bearerProvider) {
+        this.bearerProvider = bearerProvider;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public Date getExpiration() {
+        return expiration;
+    }
+
+    public void setExpiration(Date expiration) {
+        this.expiration = expiration;
+    }
+
+    @Override
+    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+        if (accessToken != null && expiration != null) {
+            if (System.currentTimeMillis() > expiration.getTime()) {
+                accessToken = null;
+                expiration = null;
+            }
+        }
+        if (accessToken == null && bearerProvider != null) {
+            bearerProvider.provideAccessToken(this);
+        }
+        if (accessToken != null) {
+            headerParams.put("Authorization", "Bearer " + accessToken);
+        }
+    }
 }

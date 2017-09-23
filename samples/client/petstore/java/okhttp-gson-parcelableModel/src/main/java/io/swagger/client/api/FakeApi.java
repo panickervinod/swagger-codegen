@@ -13,18 +13,20 @@
 
 package io.swagger.client.api;
 
+import io.swagger.client.ApiAsserts;
 import io.swagger.client.ApiCallback;
 import io.swagger.client.ApiClient;
+import io.swagger.client.ApiClientHolder;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
+import io.swagger.client.ProgressListenerFactory;
 import io.swagger.client.ProgressRequestBody;
+import io.swagger.client.ProgressRequestListenerFactory;
 import io.swagger.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
 
 
 import java.math.BigDecimal;
@@ -39,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FakeApi {
+public class FakeApi implements ApiClientHolder {
     private ApiClient apiClient;
 
     public FakeApi() {
@@ -67,57 +69,18 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call fakeOuterBooleanSerializeCall(Boolean body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // create path and map variables
-        String localVarPath = "/fake/outer/boolean";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(
+            "/fake/outer/boolean", "POST",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), body, new HashMap<String, String>(), new HashMap<String, Object>(),
+            new String[] {  }, new String[]{  }, new String[]{  },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call fakeOuterBooleanSerializeValidateBeforeCall(Boolean body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        
-        com.squareup.okhttp.Call call = fakeOuterBooleanSerializeCall(body, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
+        return fakeOuterBooleanSerializeCall(body, progressListener, progressRequestListener);
     }
 
     /**
@@ -128,8 +91,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
-        ApiResponse<Boolean> resp = fakeOuterBooleanSerializeWithHttpInfo(body);
-        return resp.getData();
+        return fakeOuterBooleanSerializeWithHttpInfo(body).getData();
     }
 
     /**
@@ -141,8 +103,7 @@ public class FakeApi {
      */
     public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
         com.squareup.okhttp.Call call = fakeOuterBooleanSerializeValidateBeforeCall(body, null, null);
-        Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return apiClient.execute(call, new TypeToken<Boolean>(){}.getType());
     }
 
     /**
@@ -154,31 +115,11 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call fakeOuterBooleanSerializeAsync(Boolean body, final ApiCallback<Boolean> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = fakeOuterBooleanSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
+        com.squareup.okhttp.Call call = fakeOuterBooleanSerializeValidateBeforeCall(body, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
+        apiClient.executeAsync(call, new TypeToken<Boolean>(){}.getType(), callback);
         return call;
     }
+
     /**
      * Build call for fakeOuterCompositeSerialize
      * @param body Input composite as post body (optional)
@@ -188,57 +129,18 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call fakeOuterCompositeSerializeCall(OuterComposite body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // create path and map variables
-        String localVarPath = "/fake/outer/composite";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(
+            "/fake/outer/composite", "POST",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), body, new HashMap<String, String>(), new HashMap<String, Object>(),
+            new String[] {  }, new String[]{  }, new String[]{  },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call fakeOuterCompositeSerializeValidateBeforeCall(OuterComposite body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        
-        com.squareup.okhttp.Call call = fakeOuterCompositeSerializeCall(body, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
+        return fakeOuterCompositeSerializeCall(body, progressListener, progressRequestListener);
     }
 
     /**
@@ -249,8 +151,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
-        ApiResponse<OuterComposite> resp = fakeOuterCompositeSerializeWithHttpInfo(body);
-        return resp.getData();
+        return fakeOuterCompositeSerializeWithHttpInfo(body).getData();
     }
 
     /**
@@ -262,8 +163,7 @@ public class FakeApi {
      */
     public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
         com.squareup.okhttp.Call call = fakeOuterCompositeSerializeValidateBeforeCall(body, null, null);
-        Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return apiClient.execute(call, new TypeToken<OuterComposite>(){}.getType());
     }
 
     /**
@@ -275,31 +175,11 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call fakeOuterCompositeSerializeAsync(OuterComposite body, final ApiCallback<OuterComposite> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = fakeOuterCompositeSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
+        com.squareup.okhttp.Call call = fakeOuterCompositeSerializeValidateBeforeCall(body, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
+        apiClient.executeAsync(call, new TypeToken<OuterComposite>(){}.getType(), callback);
         return call;
     }
+
     /**
      * Build call for fakeOuterNumberSerialize
      * @param body Input number as post body (optional)
@@ -309,57 +189,18 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call fakeOuterNumberSerializeCall(BigDecimal body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // create path and map variables
-        String localVarPath = "/fake/outer/number";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(
+            "/fake/outer/number", "POST",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), body, new HashMap<String, String>(), new HashMap<String, Object>(),
+            new String[] {  }, new String[]{  }, new String[]{  },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call fakeOuterNumberSerializeValidateBeforeCall(BigDecimal body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        
-        com.squareup.okhttp.Call call = fakeOuterNumberSerializeCall(body, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
+        return fakeOuterNumberSerializeCall(body, progressListener, progressRequestListener);
     }
 
     /**
@@ -370,8 +211,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
-        ApiResponse<BigDecimal> resp = fakeOuterNumberSerializeWithHttpInfo(body);
-        return resp.getData();
+        return fakeOuterNumberSerializeWithHttpInfo(body).getData();
     }
 
     /**
@@ -383,8 +223,7 @@ public class FakeApi {
      */
     public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
         com.squareup.okhttp.Call call = fakeOuterNumberSerializeValidateBeforeCall(body, null, null);
-        Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return apiClient.execute(call, new TypeToken<BigDecimal>(){}.getType());
     }
 
     /**
@@ -396,31 +235,11 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call fakeOuterNumberSerializeAsync(BigDecimal body, final ApiCallback<BigDecimal> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = fakeOuterNumberSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
+        com.squareup.okhttp.Call call = fakeOuterNumberSerializeValidateBeforeCall(body, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
+        apiClient.executeAsync(call, new TypeToken<BigDecimal>(){}.getType(), callback);
         return call;
     }
+
     /**
      * Build call for fakeOuterStringSerialize
      * @param body Input string as post body (optional)
@@ -430,57 +249,18 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call fakeOuterStringSerializeCall(String body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // create path and map variables
-        String localVarPath = "/fake/outer/string";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(
+            "/fake/outer/string", "POST",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), body, new HashMap<String, String>(), new HashMap<String, Object>(),
+            new String[] {  }, new String[]{  }, new String[]{  },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call fakeOuterStringSerializeValidateBeforeCall(String body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        
-        com.squareup.okhttp.Call call = fakeOuterStringSerializeCall(body, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
+        return fakeOuterStringSerializeCall(body, progressListener, progressRequestListener);
     }
 
     /**
@@ -491,8 +271,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public String fakeOuterStringSerialize(String body) throws ApiException {
-        ApiResponse<String> resp = fakeOuterStringSerializeWithHttpInfo(body);
-        return resp.getData();
+        return fakeOuterStringSerializeWithHttpInfo(body).getData();
     }
 
     /**
@@ -504,8 +283,7 @@ public class FakeApi {
      */
     public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
         com.squareup.okhttp.Call call = fakeOuterStringSerializeValidateBeforeCall(body, null, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return apiClient.execute(call, new TypeToken<String>(){}.getType());
     }
 
     /**
@@ -517,31 +295,11 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call fakeOuterStringSerializeAsync(String body, final ApiCallback<String> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = fakeOuterStringSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
+        com.squareup.okhttp.Call call = fakeOuterStringSerializeValidateBeforeCall(body, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
+        apiClient.executeAsync(call, new TypeToken<String>(){}.getType(), callback);
         return call;
     }
+
     /**
      * Build call for testClientModel
      * @param body client model (required)
@@ -551,62 +309,18 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call testClientModelCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // create path and map variables
-        String localVarPath = "/fake";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(
+            "/fake", "PATCH",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), body, new HashMap<String, String>(), new HashMap<String, Object>(),
+            new String[] {  }, new String[]{ "application/json" }, new String[]{ "application/json" },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call testClientModelValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling testClientModel(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = testClientModelCall(body, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
+        ApiAsserts.notNull("testClientModel(Async)", "body", body);
+        return testClientModelCall(body, progressListener, progressRequestListener);
     }
 
     /**
@@ -617,8 +331,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Client testClientModel(Client body) throws ApiException {
-        ApiResponse<Client> resp = testClientModelWithHttpInfo(body);
-        return resp.getData();
+        return testClientModelWithHttpInfo(body).getData();
     }
 
     /**
@@ -630,8 +343,7 @@ public class FakeApi {
      */
     public ApiResponse<Client> testClientModelWithHttpInfo(Client body) throws ApiException {
         com.squareup.okhttp.Call call = testClientModelValidateBeforeCall(body, null, null);
-        Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return apiClient.execute(call, new TypeToken<Client>(){}.getType());
     }
 
     /**
@@ -643,31 +355,11 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call testClientModelAsync(Client body, final ApiCallback<Client> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = testClientModelValidateBeforeCall(body, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
+        com.squareup.okhttp.Call call = testClientModelValidateBeforeCall(body, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
+        apiClient.executeAsync(call, new TypeToken<Client>(){}.getType(), callback);
         return call;
     }
+
     /**
      * Build call for testEndpointParameters
      * @param number None (required)
@@ -690,105 +382,105 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call testEndpointParametersCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
         
-        // create path and map variables
-        String localVarPath = "/fake";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (integer != null)
-        localVarFormParams.put("integer", integer);
-        if (int32 != null)
-        localVarFormParams.put("int32", int32);
-        if (int64 != null)
-        localVarFormParams.put("int64", int64);
-        if (number != null)
-        localVarFormParams.put("number", number);
-        if (_float != null)
-        localVarFormParams.put("float", _float);
-        if (_double != null)
-        localVarFormParams.put("double", _double);
-        if (string != null)
-        localVarFormParams.put("string", string);
-        if (patternWithoutDelimiter != null)
-        localVarFormParams.put("pattern_without_delimiter", patternWithoutDelimiter);
-        if (_byte != null)
-        localVarFormParams.put("byte", _byte);
-        if (binary != null)
-        localVarFormParams.put("binary", binary);
-        if (date != null)
-        localVarFormParams.put("date", date);
-        if (dateTime != null)
-        localVarFormParams.put("dateTime", dateTime);
-        if (password != null)
-        localVarFormParams.put("password", password);
-        if (paramCallback != null)
-        localVarFormParams.put("callback", paramCallback);
-
-        final String[] localVarAccepts = {
-            "application/xml; charset=utf-8", "application/json; charset=utf-8"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/xml; charset=utf-8", "application/json; charset=utf-8"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (integer != null) {
+            formParams.put("integer", integer);
         }
-
-        String[] localVarAuthNames = new String[] { "http_basic_test" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (int32 != null) {
+            formParams.put("int32", int32);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (int64 != null) {
+            formParams.put("int64", int64);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (number != null) {
+            formParams.put("number", number);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (_float != null) {
+            formParams.put("float", _float);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (_double != null) {
+            formParams.put("double", _double);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (string != null) {
+            formParams.put("string", string);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (patternWithoutDelimiter != null) {
+            formParams.put("pattern_without_delimiter", patternWithoutDelimiter);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (_byte != null) {
+            formParams.put("byte", _byte);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (binary != null) {
+            formParams.put("binary", binary);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (date != null) {
+            formParams.put("date", date);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (dateTime != null) {
+            formParams.put("dateTime", dateTime);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (password != null) {
+            formParams.put("password", password);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (paramCallback != null) {
+            formParams.put("callback", paramCallback);
+        }
+        return apiClient.buildCall(
+            "/fake", "POST",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), null, new HashMap<String, String>(), formParamsformParamsformParamsformParamsformParamsformParamsformParamsformParamsformParamsformParamsformParamsformParamsformParamsformParams,
+            new String[] { "http_basic_test" }, new String[]{ "application/xml; charset=utf-8", "application/json; charset=utf-8" }, new String[]{ "application/xml; charset=utf-8", "application/json; charset=utf-8" },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        ApiAsserts.notNull("testEndpointParameters(Async)", "number", number);
         
-        // verify the required parameter 'number' is set
-        if (number == null) {
-            throw new ApiException("Missing the required parameter 'number' when calling testEndpointParameters(Async)");
-        }
+        ApiAsserts.notNull("testEndpointParameters(Async)", "_double", _double);
         
-        // verify the required parameter '_double' is set
-        if (_double == null) {
-            throw new ApiException("Missing the required parameter '_double' when calling testEndpointParameters(Async)");
-        }
+        ApiAsserts.notNull("testEndpointParameters(Async)", "patternWithoutDelimiter", patternWithoutDelimiter);
         
-        // verify the required parameter 'patternWithoutDelimiter' is set
-        if (patternWithoutDelimiter == null) {
-            throw new ApiException("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters(Async)");
-        }
-        
-        // verify the required parameter '_byte' is set
-        if (_byte == null) {
-            throw new ApiException("Missing the required parameter '_byte' when calling testEndpointParameters(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, progressListener, progressRequestListener);
-        return call;
-
+        ApiAsserts.notNull("testEndpointParameters(Async)", "_byte", _byte);
         
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        return testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, progressListener, progressRequestListener);
     }
 
     /**
@@ -811,7 +503,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        return testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).getData();
     }
 
     /**
@@ -861,30 +553,11 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
         apiClient.executeAsync(call, callback);
         return call;
     }
+
     /**
      * Build call for testEnumParameters
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
@@ -901,73 +574,63 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call testEnumParametersCall(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
         
-        // create path and map variables
-        String localVarPath = "/fake";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (enumQueryStringArray != null)
-        localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
-        if (enumQueryString != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_string", enumQueryString));
-        if (enumQueryInteger != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_integer", enumQueryInteger));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (enumHeaderStringArray != null)
-        localVarHeaderParams.put("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
-        if (enumHeaderString != null)
-        localVarHeaderParams.put("enum_header_string", apiClient.parameterToString(enumHeaderString));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (enumFormStringArray != null)
-        localVarFormParams.put("enum_form_string_array", enumFormStringArray);
-        if (enumFormString != null)
-        localVarFormParams.put("enum_form_string", enumFormString);
-        if (enumQueryDouble != null)
-        localVarFormParams.put("enum_query_double", enumQueryDouble);
-
-        final String[] localVarAccepts = {
-            "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "*/*"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
+            List<Pair> collectionQueryParams = new ArrayList<Pair>();
+        if (enumQueryStringArray != null) {
+            collectionQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
         }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        List<Pair> queryParams = new ArrayList<Pair>();
+        if (enumQueryString != null) {
+            queryParams.addAll(apiClient.parameterToPair("enum_query_string", enumQueryString));
+        }
+        List<Pair> queryParams = new ArrayList<Pair>();
+        if (enumQueryInteger != null) {
+            queryParams.addAll(apiClient.parameterToPair("enum_query_integer", enumQueryInteger));
+        }
+        
+        Map<String, String> headerParams = new HashMap<String, String>();
+        if (enumHeaderStringArray != null) {
+            headerParams.put("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
+        }
+        
+        Map<String, String> headerParams = new HashMap<String, String>();
+        if (enumHeaderString != null) {
+            headerParams.put("enum_header_string", apiClient.parameterToString(enumHeaderString));
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (enumFormStringArray != null) {
+            formParams.put("enum_form_string_array", enumFormStringArray);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (enumFormString != null) {
+            formParams.put("enum_form_string", enumFormString);
+        }
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (enumQueryDouble != null) {
+            formParams.put("enum_query_double", enumQueryDouble);
+        }
+        return apiClient.buildCall(
+            "/fake", "GET",
+            new ArrayList<Pair>()queryParamsqueryParams,collectionQueryParamsnew ArrayList<Pair>()new ArrayList<Pair>(), null, headerParamsheaderParams, formParamsformParamsformParams,
+            new String[] {  }, new String[]{ "*/*" }, new String[]{ "*/*" },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call testEnumParametersValidateBeforeCall(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         
-        com.squareup.okhttp.Call call = testEnumParametersCall(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, progressListener, progressRequestListener);
-        return call;
-
         
         
         
         
+        
+        
+        return testEnumParametersCall(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, progressListener, progressRequestListener);
     }
 
     /**
@@ -984,7 +647,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) throws ApiException {
-        testEnumParametersWithHttpInfo(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
+        return testEnumParametersWithHttpInfo(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble).getData();
     }
 
     /**
@@ -1022,30 +685,11 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call testEnumParametersAsync(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, final ApiCallback<Void> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = testEnumParametersValidateBeforeCall(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testEnumParametersValidateBeforeCall(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
         apiClient.executeAsync(call, callback);
         return call;
     }
+
     /**
      * Build call for testJsonFormData
      * @param param field1 (required)
@@ -1056,71 +700,30 @@ public class FakeApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call testJsonFormDataCall(String param, String param2, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
         
-        // create path and map variables
-        String localVarPath = "/fake/jsonFormData";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (param != null)
-        localVarFormParams.put("param", param);
-        if (param2 != null)
-        localVarFormParams.put("param2", param2);
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (param != null) {
+            formParams.put("param", param);
         }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        
+        Map<String, Object> formParams = new HashMap<String, Object>();
+        if (param2 != null) {
+            formParams.put("param2", param2);
+        }
+        return apiClient.buildCall(
+            "/fake/jsonFormData", "GET",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), null, new HashMap<String, String>(), formParamsformParams,
+            new String[] {  }, new String[]{  }, new String[]{ "application/json" },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call testJsonFormDataValidateBeforeCall(String param, String param2, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        ApiAsserts.notNull("testJsonFormData(Async)", "param", param);
         
-        // verify the required parameter 'param' is set
-        if (param == null) {
-            throw new ApiException("Missing the required parameter 'param' when calling testJsonFormData(Async)");
-        }
-        
-        // verify the required parameter 'param2' is set
-        if (param2 == null) {
-            throw new ApiException("Missing the required parameter 'param2' when calling testJsonFormData(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = testJsonFormDataCall(param, param2, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
+        ApiAsserts.notNull("testJsonFormData(Async)", "param2", param2);
+        return testJsonFormDataCall(param, param2, progressListener, progressRequestListener);
     }
 
     /**
@@ -1131,7 +734,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public void testJsonFormData(String param, String param2) throws ApiException {
-        testJsonFormDataWithHttpInfo(param, param2);
+        return testJsonFormDataWithHttpInfo(param, param2).getData();
     }
 
     /**
@@ -1157,27 +760,7 @@ public class FakeApi {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call testJsonFormDataAsync(String param, String param2, final ApiCallback<Void> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = testJsonFormDataValidateBeforeCall(param, param2, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testJsonFormDataValidateBeforeCall(param, param2, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
         apiClient.executeAsync(call, callback);
         return call;
     }

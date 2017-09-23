@@ -13,18 +13,20 @@
 
 package io.swagger.client.api;
 
+import io.swagger.client.ApiAsserts;
 import io.swagger.client.ApiCallback;
 import io.swagger.client.ApiClient;
+import io.swagger.client.ApiClientHolder;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
+import io.swagger.client.ProgressListenerFactory;
 import io.swagger.client.ProgressRequestBody;
+import io.swagger.client.ProgressRequestListenerFactory;
 import io.swagger.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
 
 
 import io.swagger.client.model.Client;
@@ -35,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FakeClassnameTags123Api {
+public class FakeClassnameTags123Api implements ApiClientHolder {
     private ApiClient apiClient;
 
     public FakeClassnameTags123Api() {
@@ -63,62 +65,18 @@ public class FakeClassnameTags123Api {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // create path and map variables
-        String localVarPath = "/fake_classname_test";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] { "api_key_query" };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(
+            "/fake_classname_test", "PATCH",
+            new ArrayList<Pair>(),new ArrayList<Pair>(), body, new HashMap<String, String>(), new HashMap<String, Object>(),
+            new String[] { "api_key_query" }, new String[]{ "application/json" }, new String[]{ "application/json" },
+            progressListener, progressRequestListener
+        );
     }
     
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call testClassnameValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling testClassname(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = testClassnameCall(body, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
+        ApiAsserts.notNull("testClassname(Async)", "body", body);
+        return testClassnameCall(body, progressListener, progressRequestListener);
     }
 
     /**
@@ -129,8 +87,7 @@ public class FakeClassnameTags123Api {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Client testClassname(Client body) throws ApiException {
-        ApiResponse<Client> resp = testClassnameWithHttpInfo(body);
-        return resp.getData();
+        return testClassnameWithHttpInfo(body).getData();
     }
 
     /**
@@ -142,8 +99,7 @@ public class FakeClassnameTags123Api {
      */
     public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
         com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(body, null, null);
-        Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return apiClient.execute(call, new TypeToken<Client>(){}.getType());
     }
 
     /**
@@ -155,29 +111,8 @@ public class FakeClassnameTags123Api {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
     public com.squareup.okhttp.Call testClassnameAsync(Client body, final ApiCallback<Client> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(body, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
+        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(body, ProgressListenerFactory.newInstance(callback), ProgressRequestListenerFactory.newInstance(callback));
+        apiClient.executeAsync(call, new TypeToken<Client>(){}.getType(), callback);
         return call;
     }
 }
